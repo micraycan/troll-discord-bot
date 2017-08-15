@@ -68,14 +68,45 @@ bot.on('message', message => {
         // fetch comments via youtube-comment-api
         fetchCommentPage(videoID)
             .then(commentPage => {
-                console.log(commentPage.comments[1].text);
-                return message.channel.send(commentPage.comments[1].text);
+                console.log(commentPage.comments[0].text);
+                return message.channel.send(commentPage.comments[0].text);
             })
             .catch(error => {
                 console.log('Rejected');
                 return message.channel.send('No comment...');
             })
     }
+
+    // TODO: make bot tell jokes on demand
 });
+
+bot.on('voiceStateUpdate', (oldMember, newMember) => {
+    let newUserChannel = newMember.voiceChannel;
+    let oldUserChannel = oldMember.voiceChannel;
+
+    // detect when users join and leave channels.
+    if (oldUserChannel === undefined && newUserChannel !== undefined) {
+        // whenever users join a channel, play intro theme
+        let voiceChannel = newUserChannel;
+        voiceChannel.join()
+            .then(connection => {
+                console.log(newMember.user.username + ' joined voice channel');
+
+                if (newMember.user.id == config.benID) { // play seinfeld for ben
+                    const dispatcher = connection.playFile('./seinfeld-theme-snip.mp3');
+                    dispatcher.on('end', end => voiceChannel.leave());
+                } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
+                    const dispatcher = connection.playFile('./pickle-rick.mp3');
+                    dispatcher.on('end', end => voiceChannel.leave());
+                }
+                // add more users here with else/if
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } else if (newUserChannel === undefined) {
+        console.log(oldMember.user.username + ' left voice channel');
+    }
+})
 
 bot.login(config.token);
