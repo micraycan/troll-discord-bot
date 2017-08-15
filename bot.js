@@ -13,7 +13,7 @@ bot.on('message', message => {
 
     // log all messages
     if (message.content) {
-        console.log(message.author + ': ' + message.content);
+        console.log(message.author.username + ': ' + message.content);
     }
 
     // something stupid
