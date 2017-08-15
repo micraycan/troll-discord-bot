@@ -6,6 +6,7 @@ const fetchCommentPage = require('youtube-comment-api');
 bot.on('ready', () => {
     console.log('We logged in, boi');
     bot.user.setGame('Half Life 3');
+    bot.user.setAvatar('./avatar.jpg');
 });
 
 bot.on('message', message => {
