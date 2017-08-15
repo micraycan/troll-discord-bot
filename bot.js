@@ -43,8 +43,6 @@ bot.on('message', message => {
     // kick husken when he says something in chat (1% chance)
     if (message.author.id == config.huskenID && d < 0.1) {
         let kickMember = message.guild.member(message.author);
-        // can't send message to user after kicking them unless friends
-        // message.author.send('https://discord.gg/nMEBGfe');
         kickMember.kick();
         message.channel.send('*kicked Husken*');
     }
