@@ -6,7 +6,7 @@ const fetchCommentPage = require('youtube-comment-api');
 bot.on('ready', () => {
     console.log('We logged in, boi');
     bot.user.setGame('Half Life 3');
-    bot.user.setAvatar('./avatar.jpg');
+    bot.user.setAvatar('./media/avatar.jpg');
 });
 
 bot.on('message', message => {
@@ -94,10 +94,10 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                 console.log(newMember.user.username + ' joined voice channel');
 
                 if (newMember.user.id == config.benID) { // play seinfeld for ben
-                    const dispatcher = connection.playFile('./seinfeld-theme-snip.mp3');
+                    const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
                     dispatcher.on('end', end => voiceChannel.leave());
                 } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
-                    const dispatcher = connection.playFile('./pickle-rick.mp3');
+                    const dispatcher = connection.playFile('./media/pickle-rick.mp3');
                     dispatcher.on('end', end => voiceChannel.leave());
                 }
                 // add more users here with else/if
