@@ -73,9 +73,9 @@ bot.on('message', message => {
                 return message.channel.send(commentPage.comments[0].text);
             })
             .catch(error => {
-                console.log('Rejected');
+                console.log(error);
                 return message.channel.send('No comment...');
-            })
+            });
     }
 
     // TODO: make bot tell jokes on demand
@@ -89,22 +89,24 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
     if (oldUserChannel === undefined && newUserChannel !== undefined) {
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
-        voiceChannel.join()
-            .then(connection => {
-                console.log(newMember.user.username + ' joined voice channel');
+        if (newMember.user.id == config.benID || newMember.user.id == config.dawnID) {
+            voiceChannel.join()
+                .then(connection => {
+                    console.log(newMember.user.username + ' joined voice channel');
 
-                if (newMember.user.id == config.benID) { // play seinfeld for ben
-                    const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
-                    dispatcher.on('end', end => voiceChannel.leave());
-                } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
-                    const dispatcher = connection.playFile('./media/pickle-rick.mp3');
-                    dispatcher.on('end', end => voiceChannel.leave());
-                }
-                // add more users here with else/if
-            })
-            .catch(error => {
-                console.log(error);
-            });
+                    if (newMember.user.id == config.benID) { // play seinfeld for ben
+                        const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
+                        dispatcher.on('end', end => voiceChannel.leave());
+                    } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
+                        const dispatcher = connection.playFile('./media/pickle-rick.mp3');
+                        dispatcher.on('end', end => voiceChannel.leave());
+                    }
+                    // add more users here with else/if
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     } else if (newUserChannel === undefined) {
         console.log(oldMember.user.username + ' left voice channel');
     }
