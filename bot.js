@@ -72,12 +72,12 @@ bot.on('message', message => {
         // fetch comments via youtube-comment-api
         fetchCommentPage(videoID)
             .then(commentPage => {
-                console.log('[' + utcDate + '] ' + commentPage.comments[0].text);
-                return message.channel.send(commentPage.comments[0].text);
+                console.log('[' + utcDate + '] ' + commentPage.comments[1].text);
+                return message.channel.send(commentPage.comments[1].text);
             })
             .catch(error => {
                 console.log('[' + utcDate + '] ' + error);
-                return message.channel.send('No comment...');
+                return; // videos without a comment should not return anything
             });
     }
 
