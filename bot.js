@@ -3,8 +3,11 @@ const config = require('./config.json');
 const bot = new Discord.Client();
 const fetchCommentPage = require('youtube-comment-api');
 
+let dt = new Date();
+let utcDate = dt.toUTCString();
+
 bot.on('ready', () => {
-    console.log('We logged in, boi');
+    console.log('[' + utcDate + '] ' + 'We logged in, boi');
     bot.user.setGame('Half Life 3');
     bot.user.setAvatar('./media/avatar.jpg');
 });
@@ -14,7 +17,7 @@ bot.on('message', message => {
 
     // log all messages
     if (message.content) {
-        console.log(message.author.username + ': ' + message.content);
+        console.log('[' + utcDate + '] ' + message.author.username + ': ' + message.content);
     }
 
     // something stupid
@@ -36,7 +39,7 @@ bot.on('message', message => {
         message.channel.fetchMessages({limit: numberOfMsgs})
             .then(messages => {
                 message.channel.bulkDelete(messages);
-                console.log('Deleting ' + numberOfMsgs + ' messages');
+                console.log('[' + utcDate + '] ' + 'Deleting ' + numberOfMsgs + ' messages');
             })
             .catch(console.error);
     }
@@ -51,7 +54,7 @@ bot.on('message', message => {
     // the meme bot uses pls commands so delete the command after submitted
     if (message.content.startsWith('pls')) {
         message.delete()
-            .then(message => console.log('Deleted message'))
+            .then(message => console.log('[' + utcDate + '] ' + 'Deleted message'))
             .catch(console.error);
     }
 
@@ -64,16 +67,16 @@ bot.on('message', message => {
         if (videoID && videoID[2].length == 11) {
             videoID = videoID[2];
         } else {
-            console.log('Error with the video ID');
+            console.log('[' + utcDate + '] ' + 'Error with the video ID');
         }
         // fetch comments via youtube-comment-api
         fetchCommentPage(videoID)
             .then(commentPage => {
-                console.log(commentPage.comments[0].text);
+                console.log('[' + utcDate + '] ' + commentPage.comments[0].text);
                 return message.channel.send(commentPage.comments[0].text);
             })
             .catch(error => {
-                console.log(error);
+                console.log('[' + utcDate + '] ' + error);
                 return message.channel.send('No comment...');
             });
     }
@@ -92,7 +95,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         if (newMember.user.id == config.benID || newMember.user.id == config.dawnID) {
             voiceChannel.join()
                 .then(connection => {
-                    console.log(newMember.user.username + ' joined voice channel');
+                    console.log('[' + utcDate + '] ' + newMember.user.username + ' joined voice channel');
 
                     if (newMember.user.id == config.benID) { // play seinfeld for ben
                         const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
@@ -104,11 +107,11 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                     // add more users here with else/if
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log('[' + utcDate + '] ' + error);
                 });
         }
     } else if (newUserChannel === undefined) {
-        console.log(oldMember.user.username + ' left voice channel');
+        console.log('[' + utcDate + '] ' + oldMember.user.username + ' left voice channel');
     }
 })
 
