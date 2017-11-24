@@ -115,4 +115,10 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
     }
 })
 
+// bot welcomes new members into server and gives them a role
+bot.on('guildMemberAdd', member => {
+    // add role for user
+    member.addRole(config.roleID).catch(console.error);
+})
+
 bot.login(config.token);
