@@ -3,16 +3,17 @@ const config = require('./config.json');
 const bot = new Discord.Client();
 const fetchCommentPage = require('youtube-comment-api');
 
-let dt = new Date();
-let utcDate = dt.toUTCString();
-
 bot.on('ready', () => {
+    let dt = new Date();
+    let utcDate = dt.toUTCString();
     console.log('[' + utcDate + '] ' + 'We logged in, boi');
     bot.user.setGame('Half Life 3');
     bot.user.setAvatar('./media/avatar.jpg');
 });
 
 bot.on('message', message => {
+    let dt = new Date();
+    let utcDate = dt.toUTCString();
     if (message.author.bot) return; // bots don't need to talk to each other
 
     // log all messages
@@ -85,6 +86,8 @@ bot.on('message', message => {
 });
 
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
+    let dt = new Date();
+    let utcDate = dt.toUTCString();
     let newUserChannel = newMember.voiceChannel;
     let oldUserChannel = oldMember.voiceChannel;
 
