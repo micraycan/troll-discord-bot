@@ -93,13 +93,14 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
     // detect when users join and leave channels.
     if (oldUserChannel === undefined && newUserChannel !== undefined) {
+        // log user joining channels
+        console.log('[' + utcDate + '] ' + newMember.user.username + ' joined voice channel');
+
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
         if (newMember.user.id == config.benID || newMember.user.id == config.dawnID) {
             voiceChannel.join()
                 .then(connection => {
-                    console.log('[' + utcDate + '] ' + newMember.user.username + ' joined voice channel');
-
                     if (newMember.user.id == config.benID) { // play seinfeld for ben
                         const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
@@ -114,6 +115,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                 });
         }
     } else if (newUserChannel === undefined) {
+        // log users leaving channel
         console.log('[' + utcDate + '] ' + oldMember.user.username + ' left voice channel');
     }
 })
