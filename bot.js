@@ -23,7 +23,7 @@ bot.on('message', message => {
 
     // something stupid
     let d = Math.random();
-    if (message.content && d < 0.01) {
+    if (message.content && d < 0.01 && !(message.content.startsWith('http'))) {
         message.reply('Allegedly...');
     }
 
