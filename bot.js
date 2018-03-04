@@ -98,7 +98,8 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
-        if (newMember.user.id == config.benID || newMember.user.id == config.dawnID) {
+        if (newMember.user.id == config.benID || newMember.user.id == config.dawnID || newMember.user.id == config.drewID) {
+            // I'll clean this up later lol
             voiceChannel.join()
                 .then(connection => {
                     if (newMember.user.id == config.benID) { // play seinfeld for ben
@@ -107,7 +108,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                     } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
                         const dispatcher = connection.playFile('./media/pickle-rick.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.drewID) { // play interview snippet for drew
+                    } else if (newMember.user.id == config.drewID) { // play interview
                         const dispatcher = connection.playFile('./media/dancing.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
                     }
