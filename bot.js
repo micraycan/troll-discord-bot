@@ -107,6 +107,9 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                     } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
                         const dispatcher = connection.playFile('./media/pickle-rick.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
+                    } else if (newMember.user.id == config.drewID) { // play interview snippet for drew
+                        const dispatcher = connection.playFile('./media/dancing.mp3');
+                        dispatcher.on('end', end => voiceChannel.leave());
                     }
                     // add more users here with else/if
                 })
