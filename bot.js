@@ -7,8 +7,8 @@ bot.on('ready', () => {
     let dt = new Date();
     let utcDate = dt.toUTCString();
     console.log('[' + utcDate + '] ' + 'We logged in, boi');
-    bot.user.setGame('Half Life 3');
-    bot.user.setAvatar('./media/avatar.jpg');
+    // bot.user.setGame('Half Life 3');
+    // bot.user.setAvatar('./media/avatar.jpg');
 });
 
 bot.on('message', message => {
@@ -98,8 +98,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
-        if (newMember.user.id == config.benID || newMember.user.id == config.dawnID || newMember.user.id == config.drewID) {
-            // I'll clean this up later lol
+        if (newMember.user.id == (config.benID || config.dawnID)) {
             voiceChannel.join()
                 .then(connection => {
                     if (newMember.user.id == config.benID) { // play seinfeld for ben
@@ -107,9 +106,6 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                         dispatcher.on('end', end => voiceChannel.leave());
                     } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
                         const dispatcher = connection.playFile('./media/pickle-rick.mp3');
-                        dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.drewID) { // play interview
-                        const dispatcher = connection.playFile('./media/dancing.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
                     }
                     // add more users here with else/if
