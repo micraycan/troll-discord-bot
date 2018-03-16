@@ -108,7 +108,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                         const dispatcher = connection.playFile('./media/pickle-rick.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
                     } else if (newMember.user.id == config.ownerID) {
-                        const distpatcher = connection.playFile('./media/jenner.mp3');
+                        const dispatcher = connection.playFile('./media/jenner.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
                     }
                     // add more users here with else/if
