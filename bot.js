@@ -98,7 +98,10 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
-        if (newMember.user.id == (config.benID || config.dawnID || config.ownerID)) {
+        if (newMember.user.id == config.benID ||
+            newMember.user.id == config.dawnID ||
+            newMember.user.id == config.ownerID) {
+            // this will have to do
             voiceChannel.join()
                 .then(connection => {
                     if (newMember.user.id == config.benID) { // play seinfeld for ben
