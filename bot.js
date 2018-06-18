@@ -22,10 +22,10 @@ bot.on('message', message => {
     }
 
     // something stupid
-    let d = Math.random();
-    if (message.content && d < 0.001 && !(message.content.startsWith('http'))) {
-        message.reply('Allegedly...');
-    }
+    // let d = Math.random();
+    // if (message.content && d < 0.001 && !(message.content.startsWith('http'))) {
+    //     message.reply('Allegedly...');
+    // }
 
     // delete last message or delete all, admin permission
     if (message.content.startsWith(config.prefix + 'delete')) {
