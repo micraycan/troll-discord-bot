@@ -117,6 +117,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                     // add more users here with else/if
                 })
                 .catch(error => {
+                    voiceChannel.leave(); // kick bot if stuck
                     console.log('[' + utcDate + '] ' + error);
                 });
         }
