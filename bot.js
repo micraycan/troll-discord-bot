@@ -99,22 +99,22 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
         if (newMember.user.id == config.benID ||
-            newMember.user.id == config.dawnID ||
-            newMember.user.id == config.ownerID) {
+            newMember.user.id == config.ownerID ||
+            newMember.user.id == config.jaredID) {
             // this will have to do
             voiceChannel.join()
                 .then(connection => {
                     if (newMember.user.id == config.benID) { // play seinfeld for ben
                         const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.dawnID) { // play pickle rick for dawn
-                        const dispatcher = connection.playFile('./media/pickle-rick.mp3');
-                        dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.ownerID) {
+                    } else if (newMember.user.id == config.ownerID) { // play kung fu for me
                         const dispatcher = connection.playFile('./media/kungfu.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
+                    } else if (newMember.user.id == config.jaredID) { // play jared vine for jared
+                        const dispatcher = connection.playFile('./media/jared.mp3');
+                        dispatcher.on('end', end => voiceChannel.leave());
                     }
-                    // add more users here with else/if
+                    // add more users here with else if
                 })
                 .catch(error => {
                     voiceChannel.leave(); // kick bot if stuck
