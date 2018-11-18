@@ -115,7 +115,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                         const dispatcher = connection.playFile('./media/jared.mp3');
                         dispatcher.on('end', end => voiceChannel.leave());
                     } else if (newMember.user.id == config.jeebzID) {
-                        const dispatcher = connection.pllayFile('./media/gnome.mp3'); // you've been gnomed
+                        const dispatcher = connection.playFile('./media/gnome.mp3'); // you've been gnomed
                         dispatcher.on('end', end => voiceChannel.leave());
                     }
                     // add more users here with else if
