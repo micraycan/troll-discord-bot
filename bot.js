@@ -100,7 +100,8 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         let voiceChannel = newUserChannel;
         if (newMember.user.id == config.benID ||
             newMember.user.id == config.ownerID ||
-            newMember.user.id == config.jaredID) {
+            newMember.user.id == config.jaredID ||
+            newMember.user.id == config.jeebzID) {
             // this will have to do
             voiceChannel.join()
                 .then(connection => {
@@ -112,6 +113,9 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
                         dispatcher.on('end', end => voiceChannel.leave());
                     } else if (newMember.user.id == config.jaredID) { // play jared vine for jared
                         const dispatcher = connection.playFile('./media/jared.mp3');
+                        dispatcher.on('end', end => voiceChannel.leave());
+                    } else if (newMember.user.id == config.jeebzID) {
+                        const dispatcher = connection.pllayFile('./media/gnome.mp3'); // you've been gnomed
                         dispatcher.on('end', end => voiceChannel.leave());
                     }
                     // add more users here with else if
