@@ -91,6 +91,15 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
     let newUserChannel = newMember.voiceChannel;
     let oldUserChannel = oldMember.voiceChannel;
 
+    let discordUsers = [
+        {'id': config.benID, 'file': './media/seinfeld-theme-snip.mp3'},
+        {'id': config.jeebzID, 'file': './media/gnome.mp3'},
+        {'id': config.jared, 'file': './media/jared.mp3'},
+        {'id': config.ownerID, 'file': './media/kungfu.mp3'}
+    ];
+
+    let discordUser = discordUsers.find(discordUser => discordUser.id == newMember.user.id)
+
     // detect when users join and leave channels.
     if (oldUserChannel === undefined && newUserChannel !== undefined) {
         // log user joining channels
@@ -98,27 +107,14 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
-        if (newMember.user.id == config.benID ||
-            newMember.user.id == config.ownerID ||
-            newMember.user.id == config.jaredID ||
-            newMember.user.id == config.jeebzID) {
+        if (discordUser !== undefined) {
             // this will have to do
             voiceChannel.join()
                 .then(connection => {
-                    if (newMember.user.id == config.benID) { // play seinfeld for ben
-                        const dispatcher = connection.playFile('./media/seinfeld-theme-snip.mp3');
-                        dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.ownerID) { // play kung fu for me
-                        const dispatcher = connection.playFile('./media/kungfu.mp3');
-                        dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.jaredID) { // play jared vine for jared
-                        const dispatcher = connection.playFile('./media/jared.mp3');
-                        dispatcher.on('end', end => voiceChannel.leave());
-                    } else if (newMember.user.id == config.jeebzID) {
-                        const dispatcher = connection.playFile('./media/gnome.mp3'); // you've been gnomed
+                    if (newMember.user.id == discordUser.id) { // play sound based on user
+                        const dispatcher = connection.playFile(discordUser.file);
                         dispatcher.on('end', end => voiceChannel.leave());
                     }
-                    // add more users here with else if
                 })
                 .catch(error => {
                     voiceChannel.leave(); // kick bot if stuck
