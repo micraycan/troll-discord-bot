@@ -109,7 +109,6 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         // whenever users join a channel, play intro theme
         let voiceChannel = newUserChannel;
         if (discordUser !== undefined) {
-            // this will have to do
             voiceChannel.join()
                 .then(connection => {
                     if (newMember.user.id == discordUser.id) { // play sound based on user
