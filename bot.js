@@ -96,7 +96,8 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         {'id': config.jeebzID, 'file': './media/gnome.mp3'},
         {'id': config.jaredID, 'file': './media/jared.mp3'},
         {'id': config.ownerID, 'file': './media/kungfu.mp3'},
-        {'id': config.brianID, 'file': './media/america-fuckyeah.mp3'}
+        {'id': config.brianID, 'file': './media/america-fuckyeah.mp3'},
+        {'id': config.joeyID, 'file': './media/ussrflute.mp3'}
     ];
 
     let discordUser = discordUsers.find(discordUser => discordUser.id == newMember.user.id)
