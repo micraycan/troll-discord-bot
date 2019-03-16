@@ -84,15 +84,21 @@ bot.on('message', message => {
 
     // custom reaction command
     if (message.content.startsWith(config.prefix + 'react')) {
-        let reactionText = message.content.slice(7); // get the content after '!react' command including space
+        let reactionText = message.content.slice(7).toLowerCase(); // get the content after '!react' command including space
         let reactionArray = reactionText.split('');
+        const distinctReactions = [...new Set(reactionArray)];
+
+        // check if array has duplicated letters or whitespace and display command rules if true
+        if (reactionArray.length > distinctReactions.length || reactionText.indexOf(' ') >= 0) {
+            message.channel.send(config.reactionCommandEmbed);
+        }
 
         message.channel.fetchMessages({ limit: 2 }) // get last message before command
             .then(messages => {
                 let lastMessage = messages.last();
                 message.delete();
 
-                (async function() {
+                (async () => {
                     for (let rLetter of reactionArray) {
                         await lastMessage.react(config.regionalLetters[rLetter]);
                     }
