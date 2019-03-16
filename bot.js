@@ -28,22 +28,22 @@ bot.on('message', message => {
     // }
 
     // delete last message or delete all, admin permission
-    if (message.content.startsWith(config.prefix + 'delete')) {
-        let adminRole = message.guild.roles.find('name', 'Admin');
-        if (!message.member.roles.has(adminRole.id)) {
-            return message.reply("You don't have permission to use this command, bruh");
-        }
-        let numberOfMsgs = 2;
-        if (message.content == (config.prefix + 'delete all')) {
-            numberOfMsgs = 50;
-        }
-        message.channel.fetchMessages({limit: numberOfMsgs})
-            .then(messages => {
-                message.channel.bulkDelete(messages);
-                console.log('[' + utcDate + '] ' + 'Deleting ' + numberOfMsgs + ' messages');
-            })
-            .catch(console.error);
-    }
+    // if (message.content.startsWith(config.prefix + 'delete')) {
+    //     let adminRole = message.guild.roles.find('name', 'Admin');
+    //     if (!message.member.roles.has(adminRole.id)) {
+    //         return message.reply("You don't have permission to use this command, bruh");
+    //     }
+    //     let numberOfMsgs = 2;
+    //     if (message.content == (config.prefix + 'delete all')) {
+    //         numberOfMsgs = 50;
+    //     }
+    //     message.channel.fetchMessages({ limit: numberOfMsgs })
+    //         .then(messages => {
+    //             message.channel.bulkDelete(messages);
+    //             console.log('[' + utcDate + '] ' + 'Deleting ' + numberOfMsgs + ' messages');
+    //         })
+    //         .catch(console.error);
+    // }
 
     // kick husken when he says something in chat (1% chance)
     if (message.author.id == config.huskenID && d < 0.1) {
@@ -82,7 +82,24 @@ bot.on('message', message => {
             });
     }
 
-    // TODO: make bot tell jokes on demand
+    // custom reaction command
+    if (message.content.startsWith(config.prefix + 'react')) {
+        let reactionText = message.content.slice(7); // get the content after '!react' command including space
+        let reactionArray = reactionText.split('');
+
+        message.channel.fetchMessages({ limit: 2 }) // get last message before command
+            .then(messages => {
+                let lastMessage = messages.last();
+                message.delete();
+
+                (async function() {
+                    for (let rLetter of reactionArray) {
+                        await lastMessage.react(config.regionalLetters[rLetter]);
+                    }
+                })()
+            })
+            .catch(console.error);
+    }
 });
 
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
