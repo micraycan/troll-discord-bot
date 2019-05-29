@@ -124,7 +124,8 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
     let discordUser = discordUsers.find(discordUser => discordUser.id == newMember.user.id)
 
     // detect when users join and leave channels.
-    if (oldUserChannel === undefined && newUserChannel !== undefined) {
+    if (oldUserChannel === undefined && newUserChannel !== undefined
+        || oldUserChannel && newUserChannel && oldUserChannel.id != newUserChannel.id) {
         // log user joining channels
         console.log('[' + utcDate + '] ' + newMember.user.username + ' joined voice channel');
 
