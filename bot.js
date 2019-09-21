@@ -35,6 +35,12 @@ bot.on('message', message => {
     // log all messages
     if (message.content) {
         console.log('[' + utcDate + '] ' + message.author.username + ': ' + message.content);
+
+        // Ubisoft goes Steamworks bye bye, always on DRM
+        let d = Math.Random();
+        if (message.content && d < 0.1) {
+            message.reply('Ubisoft goes Steamworks bye bye, always on DRM');
+        }
     }
 
     // casino
