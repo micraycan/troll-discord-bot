@@ -37,7 +37,7 @@ bot.on('message', message => {
         console.log('[' + utcDate + '] ' + message.author.username + ': ' + message.content);
 
         // Ubisoft goes Steamworks bye bye, always on DRM
-        let d = Math.Random();
+        let d = Math.random();
         if (message.content && d < 0.1) {
             message.reply('Ubisoft goes Steamworks bye bye, always on DRM');
         }
