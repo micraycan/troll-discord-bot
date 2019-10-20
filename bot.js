@@ -31,6 +31,7 @@ bot.on('message', message => {
     let utcDate = dt.toUTCString();
     if (message.author.bot) return; // bots don't need to talk to each other
     let score;
+    let d = Math.random();
 
     // log all messages
     if (message.content) {
@@ -77,7 +78,6 @@ bot.on('message', message => {
     }
 
     // something stupid
-    // let d = Math.random();
     // if (message.content && d < 0.001 && !(message.content.startsWith('http'))) {
     //     message.reply('Allegedly...');
     // }
@@ -105,6 +105,11 @@ bot.on('message', message => {
         let kickMember = message.guild.member(message.author);
         kickMember.kick();
         message.channel.send('*kicked Husken*');
+    }
+
+    // 10% chance to pepehands
+    if (d < 0.1) {
+        message.react(config.pepehands);
     }
 
 
