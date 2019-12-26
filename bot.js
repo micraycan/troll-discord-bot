@@ -128,7 +128,9 @@ bot.on('message', message => {
         fetchCommentPage(videoID)
             .then(commentPage => {
                 console.log('[' + utcDate + '] ' + commentPage.comments[1].text);
-                return message.channel.send(commentPage.comments[1].text);
+                let firstComment = commentPage.comments[1].text;
+                if (firstComment.length < 500) return message.channel.send(firstComment); // i don't want the bot to reply with a wall of text
+                else return message.reply("no one cares"); // something for now
             })
             .catch(error => {
                 console.log('[' + utcDate + '] ' + error);
