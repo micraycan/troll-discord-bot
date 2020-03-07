@@ -174,7 +174,9 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         {'id': config.benID, 'file': './media/seinfeld-theme-snip.mp3'},
         {'id': config.jeebzID, 'file': './media/gnome.mp3'},
         {'id': config.jaredID, 'file': './media/jared.mp3'},
-        {'id': config.ownerID, 'file': './media/kungfu.mp3'}
+        {'id': config.ownerID, 'file': './media/kungfu.mp3'},
+        {'id': config.drewID, 'file': './media/jinglebells.mp3'},
+        {'id': config.blueID, 'file': './media/garbage.mp3'}
     ];
 
     let discordUser = discordUsers.find(discordUser => discordUser.id == newMember.user.id)
