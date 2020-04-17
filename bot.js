@@ -100,15 +100,10 @@ bot.on('message', message => {
     //         .catch(console.error);
     // }
 
-    // kick husken when he says something in chat (1% chance)
-    if (message.author.id == config.huskenID && d < 0.1) {
-        let kickMember = message.guild.member(message.author);
-        kickMember.kick();
-        message.channel.send('*kicked Husken*');
-    }
 
-    // 10% chance to pepehands
-    if (d < 0.1) {
+
+    // 1% chance to pepehands
+    if (d < 0.01) {
         message.react(config.pepehands);
     }
 
