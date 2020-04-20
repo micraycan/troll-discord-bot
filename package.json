@@ -14,7 +14,7 @@
     "discord.js": "^11.5.1",
     "ffmpeg": "0.0.4",
     "node-gyp": "^5.0.3",
-    "nodemon": "^1.19.1",
+    "nodemon": "^1.19.4",
     "opusscript": "0.0.3",
     "sqlite": "^3.0.3",
     "youtube-comment-api": "^3.0.1",

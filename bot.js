@@ -2,8 +2,6 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const bot = new Discord.Client();
 const fetchCommentPage = require('youtube-comment-api');
-const SQLite = require('better-sqlite3');
-const sql = new SQLite('./scores.sqlite');
 
 bot.on('ready', () => {
     let dt = new Date();
@@ -12,18 +10,6 @@ bot.on('ready', () => {
     // bot.user.setGame('Half Life 3');
     // bot.user.setAvatar('./media/avatar.jpg');
 
-    // check for database
-    const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='scores';").get();
-    if (!table['count(*)']) {
-        // setup database if missing
-        sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, cash INTEGER);").run();
-        sql.prepare("CREATE UNIQUE INDEX idx_scores_id ON scores (id);").run();
-        sql.pragma("synchronous = 1");
-        sql.pragma("journal_mode = wal");
-    }
-
-    bot.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
-    bot.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, cash) VALUES (@id, @user, @guild, @cash);");
 });
 
 bot.on('message', message => {
@@ -38,49 +24,6 @@ bot.on('message', message => {
         console.log('[' + utcDate + '] ' + message.author.username + ': ' + message.content);
     }
 
-    // casino
-    if (message.guild) {
-        score = bot.getScore.get(message.author.id, message.guild.id);
-        if (!score) {
-            score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, cash: 0};
-        }
-
-        score.cash += Math.floor(Math.random() * Math.floor(10)); // add $0-10 every time someone sends a message
-
-        // money command, display balance
-        if (message.content.startsWith(config.prefix + 'money')) {
-            const embed = new Discord.RichEmbed()
-                .setTitle("Money")
-                .setAuthor(bot.user.username, bot.user.avatarURL)
-                .setColor(0x00AE86)
-                .addField(name="Cash", value='$' + score.cash, inline=true)
-
-            message.channel.send({embed});
-        }
-
-        // top 5 Leaderboard
-        if (message.content.startsWith(config.prefix + 'leaderboard')) {
-            const top5 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY cash DESC LIMIT 5;").all(message.guild.id);
-
-            const embed = new Discord.RichEmbed()
-                .setTitle("Leaderboard")
-                .setAuthor(bot.user.username, bot.user.avatarURL)
-                .setColor(0x00AE86);
-
-            for (const data of top5) {
-                embed.addField(bot.users.get(data.user).tag, `$${data.cash}`);
-            }
-
-            message.channel.send({embed});
-        }
-
-        bot.setScore.run(score);
-    }
-
-    // something stupid
-    // if (message.content && d < 0.001 && !(message.content.startsWith('http'))) {
-    //     message.reply('Allegedly...');
-    // }
 
     // delete last message or delete all, admin permission
     // if (message.content.startsWith(config.prefix + 'delete')) {
